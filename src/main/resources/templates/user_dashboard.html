@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Dashboard</title>
+</head>
+<body>
+    <h1>User Dashboard</h1>
+    <h2>Send Message</h2>
+    <form th:action="@{/user/send}" method="post">
+        <input type="number" name="userId" placeholder="User ID"><br>
+        <textarea name="messageBody" placeholder="Message"></textarea><br>
+        <button type="submit">Send</button>
+    </form>
+    
+    
+    <h2>Messages and Replies</h2>
+    <div th:each="message : ${agentReply}">
+        <div th:if="${message.reply}">
+        	<p><span style="font-weight: bold; color: black;">User Message: </span><span th:text="${message.messageBody}"></span></p>
+        	<p><span style="font-weight: bold; color: green;">Agent Reply: </span><span th:text="${message.reply}"></span></p>
+    	</div>
+    	<div th:unless="${message.reply}">
+        	<p><span style="font-weight: bold; color: black;">User Message: </span><span th:text="${message.messageBody}"></span></p>
+        	<p style="color: red;">No Agent Reply Yet</p>
+    	</div>
+    	<hr>
+    </div>
+</body>
+</html>

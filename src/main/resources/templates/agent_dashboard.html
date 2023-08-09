@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Agent Dashboard</title>
+</head>
+<body>
+    <h1>Agent Dashboard</h1>
+    <h2>Reply to Messages</h2>
+	<form th:action="@{/agent/reply}" method="post">
+        <input type="number" name="messageId" placeholder="Message Id"><br>
+        <textarea name="reply" placeholder="Reply"></textarea><br>
+        <button type="submit">Reply</button>
+    </form>
+    <h2>All Messages</h2>
+    <div th:each="message : ${allMessages}">
+        <p th:text="${message.messageId + ' : ' + message.userId + ': ' + message.messageBody}"></p>
+ 		<hr>
+    </div>
+</body>
+</html>
