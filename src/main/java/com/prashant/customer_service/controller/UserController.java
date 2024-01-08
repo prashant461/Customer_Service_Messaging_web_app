@@ -15,40 +15,42 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.prashant.customer_service.entity.Message;
 import com.prashant.customer_service.repository.MessageRepository;
+import com.prashant.customer_service.service.UserService;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
-    private MessageRepository messageRepository;
+	private UserService userService;
 	
 
 	@GetMapping("/")
 	public String showUserIdForm() {
+		
 		return "user_id_form";
 	}
 
 	@PostMapping("/redirect")
 	public String redirectToUserDashboard(@RequestParam int userId) {
+		
 	    return "redirect:/user/" + userId + "/dashboard";
 	}
 
     @GetMapping("/{userId}/dashboard")
     public String userDashboard(Model model, @PathVariable int userId) {
-        List<Message> agentReply = messageRepository.findByUserIdOrderByTimestampDesc(userId);
+    	
+        List<Message> agentReply = userService.getAgentReply(userId);
+        
         model.addAttribute("agentReply", agentReply);
         return "user_dashboard";
     }
 
     @PostMapping("/send")
     public String sendUserMessage(RedirectAttributes redirectAttributes,@RequestParam int userId, @RequestParam String messageBody) {
-        Message message = new Message();
-        message.setUserId(userId);
-        message.setMessageBody(messageBody);
-        message.setTimeStamp(Instant.now());
-        message.setAgent(false);
-        messageRepository.save(message);
+    	
+    	userService.sendMessage(userId, messageBody);
+        
         redirectAttributes.addAttribute("userId", userId);
         return "redirect:/user/{userId}/dashboard";
     }

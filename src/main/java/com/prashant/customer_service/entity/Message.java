@@ -6,8 +6,14 @@ import java.time.Instant;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Message {
 	@Id
 	@Column(name = "message_id")
@@ -27,56 +33,5 @@ public class Message {
 	
 	@Column(name="reply")
     private String reply;
-	
-	
-	public int getMessageId() {
-		return messageId;
-	}
-
-	public void setMessageId(int messageId) {
-		this.messageId = messageId;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public Instant getTimeStamp() {
-		return timestamp;
-	}
-
-	public void setTimeStamp(Instant timeStamp) {
-		this.timestamp = timeStamp;
-	}
-
-	public String getMessageBody() {
-		return messageBody;
-	}
-
-	public void setMessageBody(String messageBody) {
-		this.messageBody = messageBody;
-	}
-
-	public boolean isAgent() {
-		return agent;
-	}
-
-	public void setAgent(boolean agent) {
-		this.agent = agent;
-	}
-
-	public String getReply() {
-		return reply;
-	}
-
-	public void setReply(String reply) {
-		this.reply = reply;
-	}
-
-
-	
+		
 }

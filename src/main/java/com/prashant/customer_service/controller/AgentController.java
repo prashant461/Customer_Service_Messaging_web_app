@@ -12,29 +12,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.prashant.customer_service.entity.Message;
 import com.prashant.customer_service.repository.MessageRepository;
+import com.prashant.customer_service.service.AgentService;
 
 @Controller
 @RequestMapping("/agent")
 public class AgentController {
+	
 	@Autowired
-    private MessageRepository messageRepository;
+	AgentService agentService;
 
     @GetMapping("/dashboard")
     public String agentDashboard(Model model) {
-        List<Message> allMessages = messageRepository.findAllByAgentFalseOrderByTimestampDesc();
+    	List<Message> allMessages = agentService.getAllMessages();
         model.addAttribute("allMessages", allMessages);
+        
         return "agent_dashboard";
     }
 
     @PostMapping("/reply")
     public String replyToMessage(@RequestParam int messageId, @RequestParam String reply) {
-        Optional<Message> optionalMessage = messageRepository.findById(messageId);
-        if (optionalMessage.isPresent()) {
-            Message message = optionalMessage.get();
-            message.setAgent(true);
-            message.setReply(reply);
-            messageRepository.save(message);
-        }
+        agentService.findById(messageId, reply);
+        
         return "redirect:/agent/dashboard";
     }
 }
